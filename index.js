@@ -33,13 +33,13 @@ class PingPlatform {
 
 	    init() {
 		            this.accessories = this.accessories.filter(accessory =>
-				                this.deviceConfigs.some(deviceConfig => UUIDGen.generate(deviceConfig.ip) === accessory.UUID) ||
+				                this.deviceConfigs.some(deviceConfig => UUIDGen.generate(deviceConfig.name || deviceConfig.ip) === accessory.UUID) ||
 				                (this.api.unregisterPlatformAccessories('homebridge-ping-device', 'PingPlatform', [accessory]) && false)
 				            );
 
 		            this.deviceConfigs.forEach(deviceConfig => {
 				                let name = deviceConfig.name || deviceConfig.ip;
-				                let uuid = UUIDGen.generate(deviceConfig.ip);
+				                let uuid = UUIDGen.generate(name);
 				                let type = (deviceConfig.isPerson + '' === 'true' ? 'Occupancy' : 'Contact') + 'Sensor';
 
 				                let accessory = this.accessories.find(acc => acc.UUID === uuid);
